@@ -1,33 +1,145 @@
-.App {
-  text-align: center;
+:root {
+  --primary: #007fb3;
+  --primary-darker: #00587b;
+  --primary-color: white;
+  --link-color: var(--primary);
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Ubuntu, Arial;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+a, a:hover, a:visited {
+  color: var(--link-color);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.top-buffer { margin-top: 15px; }
+.top-buffer-lg { margin-top: 30px; }
+
+h1, h2, h3, h4, h5 {
+  color: #333333;
+}
+
+header {
+  padding: 0;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--primary);
+  color: var(--primary-color);
+  min-width: 330px;
+}
+
+header .content {
   display: flex;
-  flex-direction: column;
+  direction: row;
+  height: 40px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-left: 10px;
+  justify-content: flex-start;
+}
+
+header .title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-right: 10px;
+  padding: 0 6px;
+}
+
+header .links {
+  margin-left: auto;
+}
+
+header .links a {
   color: white;
+  display: inline-block;
+  line-height: 40px;
+  padding: 0 12px;
 }
 
-.App-link {
-  color: #61dafb;
+header .links a:hover, .button:hover {
+  background-color: var(--primary-darker);
+  color: white;
+  text-decoration: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header img {
+  width: auto;
+  height: 30px;
+}
+
+.button {
+  padding: 4px;
+  border: none;
+  color: white;
+  font-size: 1em;
+  background-color: var(--primary);
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+.button-large {
+  font-size: 1.4em;
+  padding: 6px 12px;
+}
+
+.container {
+  padding: 8px;
+  max-width: 768px;
+  margin: 20px auto;
+  word-wrap: break-word; 
+
+}
+
+.files {
+  /*border: solid 1px #ccc;*/
+  padding: 6px;
+}
+
+.file {
+  padding: 8px 4px;
+  border-top: solid 1px #ccc;
+  word-wrap: break-word; 
+}
+
+.file:last-child {
+  border-bottom: solid 1px #ccc;
+}
+
+.uploadform {
+  border: dashed 1px #cccccc;
+  border-radius: 6px;
+  padding: 8px;
+  position: relative;
+}
+
+input {
+  width: 100%;
+}
+
+input[type=file] {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: -4px;
+  border: solid 1px red;
+  opacity: 0.0;
+}
+
+.uploadform:hover {
+  border: solid 1px #333;
+}
+
+.text-center {
+  text-align: center;
 }

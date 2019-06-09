@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
+import Files from './components/files';
+import File from './components/file';
+import UploadForm from './components/uploadform';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <div className="container">
+        <Route path="/" exact component={UploadForm} />
+        <Route path="/files" exact component={Files} />
+        <Route path="/files/:id" component={File} />
+      </div>
+    </Router>
+  )
+}
+
+const Header = () => {
+  return (
+    <header>
+      <div className="content">
+        <img src="/logo3.png" alt="" />
+        <div className="title">File Sharing App</div>
+        <div className="links">
+          <Link to="/">Upload</Link>
+          <Link to="/files">Files</Link>
+        </div>
+      </div>
+    </header>
   );
 }
 
