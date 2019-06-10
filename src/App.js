@@ -5,6 +5,9 @@ import Files from './components/files';
 import File from './components/file';
 import UploadForm from './components/uploadform';
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const App = () => {
   return (
     <Router>
@@ -22,7 +25,7 @@ const Header = () => {
   return (
     <header>
       <div className="content">
-        <img src="/logo3.png" alt="" />
+        <img src="/logo.png" alt="" />
         <div className="title">File Sharing App</div>
         <div className="links">
           <Link to="/">Upload</Link>

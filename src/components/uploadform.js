@@ -22,7 +22,7 @@ class UploadForm extends Component {
     const formData = new FormData();
     formData.append('file', file);
     
-    fetch("http://localhost:9000/files/new", {
+    fetch(process.env.REACT_APP_API_URL + "/files/new", {
       method: "POST",
       body: formData
     })

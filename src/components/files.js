@@ -21,7 +21,7 @@ class Files extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:9000/files")
+    fetch(process.env.REACT_APP_API_URL + "/files")
     .then((res) => {
       if(res.status !== 200) {
         this.setState({error: "Unauthorized!"})
