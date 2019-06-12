@@ -147,3 +147,7 @@ input[type=file] {
 .text-center {
   text-align: center;
 }
+
+.error {
+  color: red;
+}

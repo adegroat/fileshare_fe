@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+const utils = require("../util");
 
 class UploadForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      input_file: null
+      input_file: null,
+      error: null
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,8 +30,16 @@ class UploadForm extends Component {
     })
     .then(res => res.json())
     .then(res => {
-      if(res.file) window.location.href = "/files/" + res.file;
-    });
+      if(res.error && res.error.max_file_size) {
+        let max_size = utils.prettySize(res.error.max_file_size);
+        let message = res.error.message + ". Maximum file size is " + max_size + ".";
+        this.setState({error: message});
+      }
+      else if(res.file) {
+        window.location.href = "/files/" + res.file;
+      }
+    })
+    .catch(console.log);
   }
 
   handleFileChange(e) {
@@ -41,6 +51,8 @@ class UploadForm extends Component {
 
   render() {
     const input_file = this.state.input_file;
+    const error = this.state.error;
+
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="uploadform">
@@ -52,7 +64,13 @@ class UploadForm extends Component {
           </div>
           
           {input_file && (
-            <p className="top-buffer-lg text-center"><b>File:</b> {input_file.name}</p>
+            <p className="top-buffer-lg text-center"><b>Chosen File:</b> {input_file.name}</p>
+          )}
+          
+          {error && (
+            <div className="error text-center">
+              {error}
+            </div>
           )}
         </div>
 
