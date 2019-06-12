@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
 const utils = require("../util");
 
+const ProgressBar = ({completed, total}) => {
+  let percentDone = (completed / total * 100);
+  if(isNaN(percentDone)) return "";
+  
+  let progressStyle = {
+    width: percentDone + '%'
+  };
+
+  return (
+    <div className="progress-bar">
+      <div style={progressStyle}>
+      </div>
+    </div>
+  );
+}
+
 class UploadForm extends Component {
   constructor(props) {
     super(props);
@@ -24,22 +40,34 @@ class UploadForm extends Component {
     const formData = new FormData();
     formData.append('file', file);
     
-    fetch(process.env.REACT_APP_API_URL + "/files/new", {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.json())
-    .then(res => {
-      if(res.error && res.error.max_file_size) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", process.env.REACT_APP_API_URL + "/files/new", true);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        this.setState({upload_total: e.total});
+        this.setState({upload_completed: e.loaded});
+      }
+    }
+    xhr.upload.onloadstart = (e) => {
+      this.setState({upload_completed: 0});
+    }
+
+    xhr.upload.onloadend = (e) => {
+      this.setState({upload_completed: e.loaded});
+    }
+
+    xhr.onload = () => {
+      let res = JSON.parse(xhr.responseText);
+      if(xhr.status === 200 && res.file) {
+        window.location.href = "/files/" + res.file;
+      } else if(res.error && res.error.max_file_size) {
         let max_size = utils.prettySize(res.error.max_file_size);
         let message = res.error.message + ". Maximum file size is " + max_size + ".";
         this.setState({error: message});
       }
-      else if(res.file) {
-        window.location.href = "/files/" + res.file;
-      }
-    })
-    .catch(console.log);
+    }
+
+    xhr.send(formData);
   }
 
   handleFileChange(e) {
@@ -52,6 +80,8 @@ class UploadForm extends Component {
   render() {
     const input_file = this.state.input_file;
     const error = this.state.error;
+    const completed = this.state.upload_completed;
+    const total = this.state.upload_total;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -74,6 +104,10 @@ class UploadForm extends Component {
           )}
         </div>
 
+        <div className="top-buffer">
+          <ProgressBar completed={completed} total={total} />
+        </div>
+        
         {input_file && (
           <div className="top-buffer">
             <input type="submit" value="Upload" className="button" />
