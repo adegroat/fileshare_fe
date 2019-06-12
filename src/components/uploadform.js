@@ -104,9 +104,11 @@ class UploadForm extends Component {
           )}
         </div>
 
-        <div className="top-buffer">
-          <ProgressBar completed={completed} total={total} />
-        </div>
+        {!error && 
+          <div className="top-buffer">
+            <ProgressBar completed={completed} total={total} />
+          </div>
+        }
         
         {input_file && (
           <div className="top-buffer">
